@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { FaInfoCircle, FaChartBar, FaDownload, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 
 function Home() {
   return (
@@ -12,37 +14,28 @@ function Home() {
           Adéntrate en una escuela llena de secretos, retos y aventuras donde el conocimiento es tu mejor arma.
           Explora pasillos misteriosos, resuelve enigmas y descubre lo oculto en cada rincón.
         </p>
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Botón: Sobre Nosotros */}
-          <a
-            href="/about"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1"
-          >
-            Sobre Nosotros
-          </a>
 
-          {/* Botón: Ver Estadísticas */}
-          <a
-            href="/stats"
-            className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1"
-          >
-            Ver Estadísticas
-          </a>
+        {/* Tarjetas de Navegación */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+          <Link to="/about" className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition">
+            <FaInfoCircle className="text-4xl text-blue-400 mb-2" />
+            <h3 className="text-xl text-white font-semibold">Sobre Nosotros</h3>
+            <p className="text-gray-400 text-sm">Conoce más sobre nuestra misión y visión.</p>
+          </Link>
 
-          {/* Botón: Descargar Videojuego */}
-          <a
-            href="/download"
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1"
-          >
-            Descargar Videojuego
-          </a>
+          <Link to="/stats" className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition">
+            <FaChartBar className="text-4xl text-green-400 mb-2" />
+            <h3 className="text-xl text-white font-semibold">Ver Estadísticas</h3>
+            <p className="text-gray-400 text-sm">Consulta tus logros y progreso.</p>
+          </Link>
+
+          <Link to="/download" className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition">
+            <FaDownload className="text-4xl text-purple-400 mb-2" />
+            <h3 className="text-xl text-white font-semibold">Descargar Juego</h3>
+            <p className="text-gray-400 text-sm">Obtén SoulQuest en tu dispositivo.</p>
+          </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-4 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} SoulQuest. Todos los derechos reservados.
-      </footer>
     </div>
   );
 }
