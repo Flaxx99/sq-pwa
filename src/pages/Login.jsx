@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ Importar useLocation
 import { toast } from "react-toastify";
 import AuthContext from "../context/AuthContext";
 
@@ -8,13 +8,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation(); // ✅ Obtener la ruta desde donde se intentó iniciar sesión
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(email, password);
       toast.success("Inicio de sesión exitoso! 🎉");
-      navigate("/");
+
+      // ✅ Si el usuario intentó acceder a una página protegida (como /stats), redirigirlo ahí después del login
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo);
     } catch (error) {
       toast.error("Credenciales incorrectas. Intenta de nuevo.");
     }

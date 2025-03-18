@@ -1,7 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import { ToastContainer } from "react-toastify"; // ✅ Importar ToastContainer
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Stats from "./pages/Stats";
@@ -12,10 +11,16 @@ import Navbar from "./components/Navbar";
 import { useContext } from "react";
 import AuthContext from "./context/AuthContext";
 
-// 🔒 Función para proteger rutas privadas
+// 🔒 Componente para proteger rutas privadas
 const PrivateRoute = ({ element }) => {
   const { user } = useContext(AuthContext);
-  return user ? element : <Navigate to="/login" />;
+  const location = useLocation(); // ✅ Guardar la ubicación actual
+
+  return user ? (
+    element
+  ) : (
+    <Navigate to="/login" state={{ from: location.pathname }} /> // ✅ Guardar la ruta desde donde intentó acceder el usuario
+  );
 };
 
 function App() {
@@ -23,7 +28,6 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} /> {/* ✅ Configuración de alertas */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
