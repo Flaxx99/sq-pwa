@@ -15,9 +15,20 @@ const Download = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center p-4 text-white">
+    <div className="min-h-screen relative flex items-center justify-center text-white">
+      {/* Video de fondo con efecto de difuminado */}
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover blur-sm"
+        autoPlay
+        loop
+        muted
+      >
+        <source src="/videos/videosq.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center flex-1 px-4 py-8 text-center">
+      <section className="flex flex-col items-center justify-center px-4 py-8 text-center relative z-10">
         <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg mb-6">
           Descargar SoulQuest
         </h1>
@@ -28,7 +39,7 @@ const Download = () => {
 
         {/* Imagen de portada */}
         <img
-          src="/images/soulquest2.jpg" // Asegúrate de que la imagen esté en la carpeta 'public/images'
+          src="/images/portadaOficial512.jpg" // Asegúrate de que la imagen esté en la carpeta 'public/images'
           alt="Portada de SoulQuest"
           className="w-64 h-64 object-cover rounded-full mb-8"
         />
@@ -36,9 +47,9 @@ const Download = () => {
         {/* Botón de Descarga */}
         <button
           onClick={handleDownload}
-          className="px-6 py-3 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 ease-in-out transform bg-[#6affed] hover:bg-[#00c8f8] hover:scale-105 hover:shadow-xl text-gray-900 font-semibold"
+          className="px-6 py-3 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 ease-in-out transform bg-[#6affed] hover:bg-[#6affed] text-gray-900 font-semibold"
         >
-          <FaWindows className="text-gray text-xl" />
+          <FaWindows className="text-white text-xl" />
           Descargar para Windows
         </button>
       </section>
