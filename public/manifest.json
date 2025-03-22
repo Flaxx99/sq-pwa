@@ -37,6 +37,16 @@
         "src": "/images/soulquest2.jpg",
         "sizes": "1024x1024",
         "type": "image/png"
+      },
+      {
+        "src": "/images/portadaOficial512.jpg",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "/images/portada2512.jpg",
+        "sizes": "512x512",
+        "type": "image/png"
       }
 
     ]

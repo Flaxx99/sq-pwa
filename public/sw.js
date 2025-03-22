@@ -9,6 +9,8 @@ self.addEventListener("install", (event) => {
           "/images/soul1-512.jpg",
           "/images/soul2-192.jpg",
           "/images/soul2-512.jpg",
+          "portadaOficial512.jpg",
+          "portada2512.jpg",
         ]);
       })
     );
