@@ -21,34 +21,9 @@ export default defineConfig({
         scope: "/",
         icons: [
           {
-            src: "/images/soul1-192.jpg",
+            src: "/images/portadaOficial192.jpg",
             sizes: "192x192",
             type: "image/png",
-          },
-          {
-            src: "/images/soul1-512.jpg",
-            sizes: "512x512",
-            type: "image/png",
-          },
-          {
-            src: "/images/soul2-192.jpg",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "/images/soul2-512.jpg",
-            sizes: "512x512",
-            type: "image/png",
-          },
-          {
-            "src": "/images/soulquest1.jpg",
-            "sizes": "1024x1024",
-            "type": "image/png"
-          },
-          {
-            "src": "/images/soulquest2.jpg",
-            "sizes": "1024x1024",
-            "type": "image/png"
           }
         ],
       },
