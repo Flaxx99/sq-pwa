@@ -20,7 +20,7 @@ const CharacterPage = () => {
     const fetchCharacter = async () => {
       try {
         console.log("Obteniendo datos para el usuario:", user.id); // 🔹 Depuración
-        const response = await fetch(`https://backend-pwa-nub7.onrender.com/api/character/user/${user.id}`);
+        const response = await fetch(`https://backend-pwa-nub7.onrender.com/api/character/1`);
 
         if (!response.ok) {
           throw new Error("Error al obtener los datos del personaje");
