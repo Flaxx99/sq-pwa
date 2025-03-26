@@ -57,12 +57,12 @@ export default defineConfig({
           },
           {
             src: "/images/soulquest1.jpg",
-            sizes: "512x512",
+            sizes: "1024x1024",
             type: "image/png",
           },
           {
             src: "/images/soulquest2.jpg",
-            sizes: "512x512",
+            sizes: "1024x1024",
             type: "image/png",
           }
         ],
