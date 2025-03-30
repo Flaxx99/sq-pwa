@@ -10,24 +10,24 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import { useContext } from "react";
 import AuthContext from "./context/AuthContext";
-import { ToastContainer, toast } from "react-toastify"; // ✅ Importar toastify
-import "react-toastify/dist/ReactToastify.css"; // ✅ Importar los estilos de toastify
+import { ToastContainer, toast } from "react-toastify"; // Importar toastify
+import "react-toastify/dist/ReactToastify.css"; // Importar los estilos de toastify
 
 
-// 🔒 Componente para proteger rutas privadas
+// Componente para proteger rutas privadas
 const PrivateRoute = ({ element }) => {
   const { user } = useContext(AuthContext);
-  const location = useLocation(); // ✅ Guardar la ubicación actual
+  const location = useLocation(); //Guardar la ubicación actual
 
   // Si no hay usuario logueado, mostrar una notificación
   if (!user) {
-    toast.error("⚠️ Necesitas iniciar sesión para acceder a esta página.");
+    toast.error("Necesitas iniciar sesión para acceder a esta página.");
   }
 
   return user ? (
     element
   ) : (
-    <Navigate to="/login" state={{ from: location.pathname }} /> // ✅ Guardar la ruta desde donde intentó acceder el usuario
+    <Navigate to="/login" state={{ from: location.pathname }} /> // Guardar la ruta desde donde intentó acceder el usuario
   );
 };
 

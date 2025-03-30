@@ -13,21 +13,17 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Intento de login con email y contraseña
       await login(email, password); 
       toast.success("Inicio de sesión exitoso!");
-
-      
       const redirectTo = location.state?.from || "/";
-      navigate(redirectTo);  // Redirigir a la página anterior o al inicio
+      navigate(redirectTo);
     } catch (error) {
-    
       toast.error("Credenciales incorrectas. Intenta de nuevo.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white select-none">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-3xl font-extrabold text-center text-[#6affed] mb-6">Iniciar Sesión</h2>
         <form onSubmit={handleLogin} className="flex flex-col space-y-4">
@@ -52,7 +48,10 @@ const Login = () => {
           </button>
         </form>
         <p className="text-center text-gray-400 mt-4">
-          ¿No tienes cuenta? <a href="/register" className="text-[#6affed] hover:underline">Regístrate aquí</a>
+          ¿No tienes cuenta?{" "}
+          <a href="/register" className="text-[#6affed] hover:underline">
+            Regístrate aquí
+          </a>
         </p>
       </div>
     </div>

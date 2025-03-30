@@ -1,36 +1,36 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaBolt, FaStar, FaChartLine, FaHome } from "react-icons/fa";
-import AuthContext from "../context/AuthContext"; // ✅ Importar el contexto de autenticación
+import AuthContext from "../context/AuthContext";
+import { supabase } from "../supabaseClient"; // 👈 asegúrate de que este archivo exista
 
 const CharacterPage = () => {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useContext(AuthContext); // ✅ Obtener el usuario autenticado
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
-      // ✅ Si no hay usuario, redirigir a login
       navigate("/login");
       return;
     }
 
     const fetchCharacter = async () => {
       try {
-        console.log("Obteniendo datos para el usuario:", user.id); // 🔹 Depuración
-        const response = await fetch(`https://backend-pwa-nub7.onrender.com/api/character/1`);
+        console.log("🔎 Buscando personaje para el usuario:", user.id);
+        const { data, error } = await supabase
+          .from("characters")
+          .select("*")
+          .eq("id", user.id) // o puedes usar .eq("user_id", user.id) si ese es el campo correcto
+          .single();
 
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos del personaje");
-        }
-
-        const data = await response.json();
+        if (error) throw error;
         setCharacter(data);
       } catch (err) {
-        console.error("Error en fetchCharacter:", err); // 🔹 Depuración
-        setError(err.message);
+        console.error("❌ Error al obtener personaje:", err.message);
+        setError("No se pudo obtener el personaje.");
       } finally {
         setLoading(false);
       }
@@ -41,41 +41,18 @@ const CharacterPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4 text-white">
-      {/* Sección de Estadísticas del Personaje */}
       <div className="max-w-md w-full bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-xl p-6 shadow-lg text-center">
-        <h1 className="text-3xl font-bold mb-4 text-[#6affed]">
-          Estadísticas del Personaje
-        </h1>
+        <h1 className="text-3xl font-bold mb-4 text-[#6affed]">Estadísticas del Personaje</h1>
 
         {loading && <p className="text-[#6affed]">Cargando...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         {character && (
           <div className="space-y-4">
-            <div className="flex items-center justify-center space-x-2">
-              <FaHeart className="text-red-500 hover:text-[#6affed] transition-colors duration-300" />
-              <p className="text-lg">
-                Vida: <strong>{character.vida}</strong>
-              </p>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <FaBolt className="text-blue-500 hover:text-[#6affed] transition-colors duration-300" />
-              <p className="text-lg">
-                Mana: <strong>{character.mana}</strong>
-              </p>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <FaStar className="text-yellow-300 hover:text-[#6affed] transition-colors duration-300" />
-              <p className="text-lg">
-                Experiencia: <strong>{character.experiencia}</strong>
-              </p>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <FaChartLine className="text-green-500 hover:text-[#6affed] transition-colors duration-300" />
-              <p className="text-lg">
-                Nivel: <strong>{character.nivel}</strong>
-              </p>
-            </div>
+            <Stat label="Vida" value={character.vida} icon={<FaHeart />} color="text-red-500" />
+            <Stat label="Mana" value={character.mana} icon={<FaBolt />} color="text-blue-400" />
+            <Stat label="Experiencia" value={character.experiencia} icon={<FaStar />} color="text-yellow-300" />
+            <Stat label="Nivel" value={character.nivel} icon={<FaChartLine />} color="text-green-400" />
           </div>
         )}
 
@@ -90,5 +67,16 @@ const CharacterPage = () => {
     </div>
   );
 };
+
+const Stat = ({ label, value, icon, color }) => (
+  <div className="flex items-center justify-center space-x-2">
+    <div className={`${color} hover:text-[#6affed] transition-colors duration-300`}>
+      {icon}
+    </div>
+    <p className="text-lg">
+      {label}: <strong>{value}</strong>
+    </p>
+  </div>
+);
 
 export default CharacterPage;
