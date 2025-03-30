@@ -10,7 +10,7 @@ const Download = () => {
     if (!user) {
       toast.error("Debes iniciar sesión para descargar el juego."); // ✅ Solo muestra la alerta
     } else {
-      window.location.href = "https://example.com/soulquest-windows.zip"; // 🔹 Reemplaza con el link real
+      window.location.href = "https://www.mediafire.com/file/2ikjemi79f50kwf/Soulquest_AoK.zip/file"; // 🔹 Reemplaza con el link real
     }
   };
 
