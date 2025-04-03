@@ -18,7 +18,7 @@ const Login = () => {
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
     } catch (error) {
-      console.error("Error al iniciar sesión:", error.message); // o solo error
+      console.error("Error al iniciar sesión:", error.message);
       toast.error("Credenciales incorrectas. Intenta de nuevo.");
     }
   };
@@ -26,10 +26,15 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white select-none">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-3xl font-extrabold text-center text-[#6affed] mb-6">
+        <h2 className="text-3xl font-extrabold text-center text-[#6affed] mb-6 select-none">
           Iniciar Sesión
         </h2>
-        <form onSubmit={handleLogin} className="flex flex-col space-y-4">
+        <form
+          onSubmit={handleLogin}
+          action="#"
+          method="POST"
+          className="flex flex-col space-y-4 select-none"
+        >
           <input
             type="email"
             placeholder="Correo Electrónico"
@@ -50,9 +55,12 @@ const Login = () => {
             Iniciar Sesión
           </button>
         </form>
-        <p className="text-center text-gray-400 mt-4">
+        <p className="text-center text-gray-400 mt-4 select-none">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="text-[#6affed] hover:underline">
+          <a
+            href="/register"
+            className="text-[#6affed] hover:underline select-none"
+          >
             Regístrate aquí
           </a>
         </p>
