@@ -1,24 +1,31 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { supabase } from "../supabaseClient";
 import AuthContext from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext); // 👈 Actualiza el contexto con el usuario
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      await login(email, password); 
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      toast.error("Credenciales incorrectas. Intenta de nuevo.");
+      console.error("❌ Error al iniciar sesión:", error.message);
+    } else {
       toast.success("Inicio de sesión exitoso!");
+      setUser(data.user); // 👈 Guarda el usuario en el contexto
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
-    } catch (error) {
-      toast.error("Credenciales incorrectas. Intenta de nuevo.");
     }
   };
 
