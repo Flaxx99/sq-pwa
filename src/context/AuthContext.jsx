@@ -1,44 +1,56 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import { supabase } from "../supabaseClient";
 
 const AuthContext = createContext();
-const API_URL = "http://localhost:10000/api"; // Cambia si usas otro backend
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    if (token) {
-      axios
-        .get(`${API_URL}/protegido`, { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => setUser(res.data.user))
-        .catch(() => {
-          setToken(null);
-          localStorage.removeItem("token");
-        });
-    }
-  }, [token]);
+    // Recuperar usuario autenticado al cargar la app
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+
+    // Escuchar cambios de sesión
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
-    setToken(res.data.token);
-    localStorage.setItem("token", res.data.token);
-    setUser(res.data.user);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw new Error(error.message);
   };
 
   const register = async (name, email, password) => {
-    await axios.post(`${API_URL}/auth/register`, { name, email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name }, // Guarda el nombre en los metadatos del usuario
+      },
+    });
+    if (error) throw new Error(error.message);
   };
 
-  const logout = () => {
-    setToken(null);
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Error al cerrar sesión:", error.message);
     setUser(null);
-    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, token }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

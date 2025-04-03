@@ -13,11 +13,12 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password); 
+      await login(email, password);
       toast.success("Inicio de sesión exitoso!");
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
     } catch (error) {
+      console.error("Error al iniciar sesión:", error.message); // o solo error
       toast.error("Credenciales incorrectas. Intenta de nuevo.");
     }
   };
@@ -25,7 +26,9 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white select-none">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-3xl font-extrabold text-center text-[#6affed] mb-6">Iniciar Sesión</h2>
+        <h2 className="text-3xl font-extrabold text-center text-[#6affed] mb-6">
+          Iniciar Sesión
+        </h2>
         <form onSubmit={handleLogin} className="flex flex-col space-y-4">
           <input
             type="email"
