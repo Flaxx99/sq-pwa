@@ -19,12 +19,11 @@ const CharacterPage = () => {
 
     const fetchCharacter = async () => {
       try {
-        console.log("🔎 Buscando personaje para el usuario:", user.id);
         const { data, error } = await supabase
           .from("characters")
           .select("*")
-          .eq("id", user.id) // o puedes usar .eq("user_id", user.id) si ese es el campo correcto
-          .single();
+          .limit(1)
+          .single(); // Obtiene la primera fila
 
         if (error) throw error;
         setCharacter(data);
@@ -42,17 +41,39 @@ const CharacterPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4 text-white">
       <div className="max-w-md w-full bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-xl p-6 shadow-lg text-center">
-        <h1 className="text-3xl font-bold mb-4 text-[#6affed]">Estadísticas del Personaje</h1>
+        <h1 className="text-3xl font-bold mb-4 text-[#6affed]">
+          Estadísticas del Personaje
+        </h1>
 
         {loading && <p className="text-[#6affed]">Cargando...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         {character && (
           <div className="space-y-4">
-            <Stat label="Vida" value={character.vida} icon={<FaHeart />} color="text-red-500" />
-            <Stat label="Mana" value={character.mana} icon={<FaBolt />} color="text-blue-400" />
-            <Stat label="Experiencia" value={character.experiencia} icon={<FaStar />} color="text-yellow-300" />
-            <Stat label="Nivel" value={character.nivel} icon={<FaChartLine />} color="text-green-400" />
+            <Stat
+              label="Vida"
+              value={character.vida}
+              icon={<FaHeart />}
+              color="text-red-500"
+            />
+            <Stat
+              label="Mana"
+              value={character.mana}
+              icon={<FaBolt />}
+              color="text-blue-400"
+            />
+            <Stat
+              label="Experiencia"
+              value={character.experiencia}
+              icon={<FaStar />}
+              color="text-yellow-300"
+            />
+            <Stat
+              label="Nivel"
+              value={character.nivel}
+              icon={<FaChartLine />}
+              color="text-green-400"
+            />
           </div>
         )}
 
@@ -70,7 +91,9 @@ const CharacterPage = () => {
 
 const Stat = ({ label, value, icon, color }) => (
   <div className="flex items-center justify-center space-x-2">
-    <div className={`${color} hover:text-[#6affed] transition-colors duration-300`}>
+    <div
+      className={`${color} hover:text-[#6affed] transition-colors duration-300`}
+    >
       {icon}
     </div>
     <p className="text-lg">
